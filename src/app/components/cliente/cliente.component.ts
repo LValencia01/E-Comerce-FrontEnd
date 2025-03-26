@@ -43,13 +43,4 @@ export class ClienteComponent {
       }
     })
   }
-
-
-
-
-
-
-
-  
-
 }

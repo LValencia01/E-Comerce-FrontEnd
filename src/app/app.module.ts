@@ -1,13 +1,33 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
+
+import { RouterModule, Routes } from '@angular/router';
+
+
+
+
 import { AppComponent } from './app.component';
 import { ClienteComponent } from './components/cliente/cliente.component';
 import { ProductoComponent } from './components/producto/producto.component';
 import { provideHttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './components/common/navbar/navbar.component';
+
+
+const routes: Routes = [
+  { path: 'clientes', component: ClienteComponent },
+  { path: 'productos', component: ClienteComponent },
+  // Agrega otras rutas aquí si es necesario
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+
 
 @NgModule({
   declarations: [

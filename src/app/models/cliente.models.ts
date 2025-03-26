@@ -2,7 +2,7 @@
         idCliente:number | null;
         nombre: string;
         apellido: string;
-        eMail: string;
+        email: string;
         telefono:string;
         direccion:string;
     }
