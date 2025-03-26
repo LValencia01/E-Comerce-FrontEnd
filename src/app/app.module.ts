@@ -9,7 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { ClienteComponent } from './components/cliente/cliente.component';
-import { ProductoComponent } from './components/producto/producto.component';
+import { ProductosComponent } from './components/producto/producto.component';
 import { provideHttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NavbarComponent } from './components/common/navbar/navbar.component';
@@ -17,8 +17,8 @@ import { NavbarComponent } from './components/common/navbar/navbar.component';
 
 const routes: Routes = [
   { path: 'clientes', component: ClienteComponent },
-  { path: 'productos', component: ClienteComponent },
-  // Agrega otras rutas aquí si es necesario
+  { path: 'productos', component: ProductosComponent },
+
 ];
 
 @NgModule({
@@ -33,7 +33,7 @@ export class AppRoutingModule { }
   declarations: [
     AppComponent,
     ClienteComponent,
-    ProductoComponent,
+    ProductosComponent,
     NavbarComponent
   ],
   imports: [
