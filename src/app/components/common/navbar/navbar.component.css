@@ -1,0 +1,8 @@
+.navbar-collapse {
+    justify-content: center;
+}
+
+
+.navbar-nav {
+    gap: 1rem;
+}
