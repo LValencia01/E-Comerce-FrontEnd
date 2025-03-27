@@ -26,7 +26,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let cliente of clientes">
-          <th scope="row">{{ cliente.idCliente || 'N/A' }}</th>
+          <th scope="row">{{ cliente.id || 'N/A' }}</th>
           <td>{{ cliente.nombre }}</td>
           <td>{{ cliente.apellido }}</td>
           <td>{{ cliente.eMail }}</td>
@@ -36,7 +36,7 @@
             <button class="btn btn-sm btn-outline-warning me-2" (click)="editCliente(cliente)">
               <i class="fa fa-edit"></i>Editar
             </button>
-            <button class="btn btn-sm btn-outline-danger" (click)="cliente.idCliente ? deleteCliente(cliente.idCliente) : null">
+            <button class="btn btn-sm btn-outline-danger" (click)="cliente.id ? deleteCliente(cliente.id) : null">
               <i class="fa fa-trash"></i>Eliminar
             </button>
           </td>
@@ -54,7 +54,7 @@
         </div>
         <div class="modal-body">
           <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
-            <input type="hidden" formControlName="idCliente" />
+            <input type="hidden" formControlName="id" />
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
               <input type="text" class="form-control" id="nombre" formControlName="nombre" required />
@@ -64,8 +64,8 @@
               <input type="text" class="form-control" id="apellido" formControlName="apellido" required />
             </div>
             <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" formControlName="email" required />
+              <label for="eMail" class="form-label">Email</label>
+              <input type="eMail" class="form-control" id="eMail" formControlName="eMail" required />
             </div>
             <div class="mb-3">
               <label for="telefono" class="form-label">Teléfono</label>

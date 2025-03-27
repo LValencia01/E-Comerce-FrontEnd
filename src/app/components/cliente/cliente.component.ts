@@ -22,10 +22,10 @@ export class ClienteComponent implements OnInit {
 
   constructor(private clienteService: ClientesService, private formBuilder: FormBuilder) {
     this.clienteForm = this.formBuilder.group({
-      idCliente: [null],
+      id: [null],
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      eMail: ['', [Validators.required, Validators.email]],
       telefono: ['', Validators.required],
       direccion: ['', Validators.required]
     });
@@ -95,7 +95,7 @@ export class ClienteComponent implements OnInit {
     }
   }
 
-  deleteCliente(idCliente: number): void {
+  deleteCliente(id: number): void {
     Swal.fire({
       title: 'Eliminar cliente',
       text: '¿Estás seguro de que quieres eliminar este cliente?',
@@ -104,9 +104,9 @@ export class ClienteComponent implements OnInit {
       showCancelButton: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.clienteService.deleteCliente(idCliente).subscribe({
+        this.clienteService.deleteCliente(id).subscribe({
           next: () => {
-            this.clientes = this.clientes.filter((c) => c.idCliente !== idCliente);
+            this.clientes = this.clientes.filter((c) => c.id !== id);
             Swal.fire('Cliente eliminado', '', 'success');
           },
           error: (error) => {

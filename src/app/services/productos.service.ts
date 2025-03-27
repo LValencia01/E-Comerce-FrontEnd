@@ -20,7 +20,7 @@ export class ProductoService {
   }
 
   updateProductos(productos: Productos):Observable<Productos>{
-    return this.http.put<Productos>(`${this.apiUrl}${productos.idProducto}`, productos);
+    return this.http.put<Productos>(`${this.apiUrl}${productos.id}`, productos);
 
   }
 

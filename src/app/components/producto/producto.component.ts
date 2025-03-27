@@ -22,7 +22,7 @@ export class ProductosComponent implements OnInit {
 
   constructor(private productoService: ProductoService, private formBuilder: FormBuilder) {
     this.productoForm = this.formBuilder.group({
-      idProducto: [null],
+      id: [null],
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
       descripcion: ['', [Validators.required, Validators.maxLength(50)]],
       precio: ['', [Validators.required, Validators.maxLength(100)]],
@@ -95,7 +95,7 @@ export class ProductosComponent implements OnInit {
     }
   }
 
-  deleteProducto(idProducto: number): void {
+  deleteProducto(id: number): void {
     Swal.fire({
       title: 'Eliminar producto',
       text: '¿Estás seguro de que quieres eliminar este producto?',
@@ -104,9 +104,9 @@ export class ProductosComponent implements OnInit {
       showCancelButton: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.productoService.deleteProductos(idProducto).subscribe({
+        this.productoService.deleteProductos(id).subscribe({
           next: () => {
-            this.productos = this.productos.filter((p) => p.idProducto !== idProducto);
+            this.productos = this.productos.filter((p) => p.id !== id);
             Swal.fire('Producto eliminado', '', 'success');
           },
           error: (error) => {

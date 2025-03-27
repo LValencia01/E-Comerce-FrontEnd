@@ -25,7 +25,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let producto of productos">
-          <th scope="row">{{ producto.idProducto || 'N/A' }}</th>
+          <th scope="row">{{ producto.id || 'N/A' }}</th>
           <td>{{ producto.nombre }}</td>
           <td>{{ producto.descripcion }}</td>
           <td>{{ producto.precio }}</td>
@@ -34,7 +34,7 @@
             <button class="btn btn-sm btn-outline-warning me-2" (click)="editProducto(producto)">
               <i class="fa fa-edit"></i>Editar
             </button>
-            <button class="btn btn-sm btn-outline-danger" (click)="producto.idProducto ? deleteProducto(producto.idProducto) : null">
+            <button class="btn btn-sm btn-outline-danger" (click)="producto.id ? deleteProducto(producto.id) : null">
               <i class="fa fa-trash"></i>Eliminar
             </button>
           </td>
@@ -52,7 +52,7 @@
         </div>
         <div class="modal-body">
           <form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
-            <input type="hidden" formControlName="idProducto" />
+            <input type="hidden" formControlName="id" />
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
               <input type="text" class="form-control" id="nombre" formControlName="nombre" required />
