@@ -14,13 +14,14 @@ export class ProductosComponent implements OnInit {
 
   productos: Productos[] = [];
   productoForm: FormGroup;
+  showModal: boolean = false;
   showForm: boolean = false;
-  textModal: string = "Nuevo producto";
+  modalTitle: string = 'Agregar Producto';
   isEditMode: boolean = false;
   selectedProductos: Productos | null = null;
 
   constructor(private productoService: ProductoService, private formBuilder: FormBuilder) {
-    this.productoForm = formBuilder.group({
+    this.productoForm = this.formBuilder.group({
       idProducto: [null],
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
       descripcion: ['', [Validators.required, Validators.maxLength(50)]],
@@ -30,18 +31,104 @@ export class ProductosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadProducto();
+    this.loadProductos();
   }
 
-  loadProducto(): void {
+  loadProductos(): void {
     this.productoService.getProductos().subscribe({
-      next: data => {
+      next: (data) => {
         this.productos = data;
-        console.log("Datos recibidos:", data); // Inspecciona los datos aquí
       },
-      error: error => {
-        console.error("Error al obtener productos:", error); // Maneja los errores aquí
+      error: (error) => {
+        console.error('Error al cargar productos:', error);
       }
+    });
+  }
+
+  openModal(): void {
+    this.showModal = true;
+    this.modalTitle = 'Agregar Producto';
+    this.isEditMode = false;
+    this.productoForm.reset();
+  }
+
+  closeModal(): void {
+    this.showModal = false;
+  }
+
+  editProducto(producto: Productos): void {
+    this.showModal = true;
+    this.modalTitle = 'Editar Producto';
+    this.isEditMode = true;
+    this.productoForm.patchValue(producto);
+  }
+
+  onSubmit(): void {
+    if (this.productoForm.valid) {
+        const producto = this.productoForm.value;
+        if (this.isEditMode) {
+            console.log('Producto a actualizar:', producto);
+            this.productoService.updateProductos(producto).subscribe({
+          next: () => {
+            this.loadProductos();
+            this.closeModal();
+            Swal.fire('Producto editado', 'El producto ha sido editado correctamente.', 'success');
+          },
+          error: (error) => {
+            console.error('Error al actualizar producto:', error);
+            this.mostrarError('Error al actualizar producto', error);
+          }
+        });
+      } else {
+        this.productoService.createProductos(producto).subscribe({
+          next: () => {
+            this.loadProductos();
+            this.closeModal();
+            Swal.fire('Producto creado', 'El producto ha sido creado correctamente.', 'success');
+          },
+          error: (error) => {
+            console.error('Error al crear producto:', error);
+            this.mostrarError('Error al crear producto', error);
+          }
+        });
+      }
+    }
+  }
+
+  deleteProducto(idProducto: number): void {
+    Swal.fire({
+      title: 'Eliminar producto',
+      text: '¿Estás seguro de que quieres eliminar este producto?',
+      icon: 'question',
+      showConfirmButton: true,
+      showCancelButton: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.productoService.deleteProductos(idProducto).subscribe({
+          next: () => {
+            this.productos = this.productos.filter((p) => p.idProducto !== idProducto);
+            Swal.fire('Producto eliminado', '', 'success');
+          },
+          error: (error) => {
+            console.error('Error al eliminar producto:', error);
+            this.mostrarError('Error al eliminar producto', error);
+          }
+        });
+      }
+    });
+  }
+
+  mostrarError(titulo: string, error: any): void {
+    let mensaje = 'Ocurrió un error inesperado.';
+    if (error && error.error && error.error.message) {
+      mensaje = error.error.message;
+    } else if (error && error.message) {
+      mensaje = error.message;
+    }
+    Swal.fire({
+      title: titulo,
+      text: mensaje,
+      icon: 'error'
     });
   }
 }

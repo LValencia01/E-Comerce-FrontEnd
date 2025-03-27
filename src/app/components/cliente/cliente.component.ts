@@ -19,6 +19,7 @@ export class ClienteComponent implements OnInit {
   isEditMode: boolean = false;
   selectedCliente: Cliente | null = null;
 
+
   constructor(private clienteService: ClientesService, private formBuilder: FormBuilder) {
     this.clienteForm = this.formBuilder.group({
       idCliente: [null],
@@ -71,9 +72,11 @@ export class ClienteComponent implements OnInit {
           next: () => {
             this.loadClientes();
             this.closeModal();
+            Swal.fire('Cliente editado', 'El cliente ha sido editado correctamente.', 'success'); // Aviso de éxito
           },
           error: (error) => {
             console.error('Error al actualizar cliente:', error);
+            this.mostrarError('Error al actualizar cliente', error);
           }
         });
       } else {
@@ -81,9 +84,11 @@ export class ClienteComponent implements OnInit {
           next: () => {
             this.loadClientes();
             this.closeModal();
+            Swal.fire('Cliente creado', 'El cliente ha sido creado correctamente.', 'success'); // Aviso de éxito
           },
           error: (error) => {
             console.error('Error al crear cliente:', error);
+            this.mostrarError('Error al crear cliente', error);
           }
         });
       }
@@ -106,9 +111,24 @@ export class ClienteComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error al eliminar cliente:', error);
+            this.mostrarError('Error al eliminar cliente', error);
           }
         });
       }
+    });
+  }
+
+  mostrarError(titulo: string, error: any): void {
+    let mensaje = 'Ocurrió un error inesperado.';
+    if (error && error.error && error.error.message) {
+      mensaje = error.error.message;
+    } else if (error && error.message) {
+      mensaje = error.message;
+    }
+    Swal.fire({
+      title: titulo,
+      text: mensaje,
+      icon: 'error'
     });
   }
 }

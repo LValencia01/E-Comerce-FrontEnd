@@ -24,7 +24,7 @@ export class ProductoService {
 
   }
 
-  deleteCliente(idProducto: number):Observable<Productos>{
+  deleteProductos(idProducto: number):Observable<Productos>{
     return this.http.delete<Productos>(`${this.apiUrl}${idProducto}`);
   }
 

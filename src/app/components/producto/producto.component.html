@@ -1,43 +1,78 @@
 <div class="container-fluid dark-theme py-4">
-    <div class="row mb-4">
-      <div class="col text-center">
-        <h2 class="text-dark bg-light p-3 rounded-3 shadow">Listado de Producto</h2>
+  <div class="row mb-4">
+    <div class="col text-center">
+      <h2 class="text-dark bg-light p-3 rounded-3 shadow">Listado de Productos</h2>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-dark" (click)="openModal()">
+      <i class="bi bi-plus-circle me-2"></i>Agregar Producto
+    </button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-dark table-striped table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productos">
+          <th scope="row">{{ producto.idProducto || 'N/A' }}</th>
+          <td>{{ producto.nombre }}</td>
+          <td>{{ producto.descripcion }}</td>
+          <td>{{ producto.precio }}</td>
+          <td>{{ producto.stock }}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-warning me-2" (click)="editProducto(producto)">
+              <i class="fa fa-edit"></i>Editar
+            </button>
+            <button class="btn btn-sm btn-outline-danger" (click)="producto.idProducto ? deleteProducto(producto.idProducto) : null">
+              <i class="fa fa-trash"></i>Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal" tabindex="-1" [ngStyle]="{'display': showModal ? 'block' : 'none'}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ modalTitle }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
+            <input type="hidden" formControlName="idProducto" />
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombre" formControlName="nombre" required />
+            </div>
+            <div class="mb-3">
+              <label for="descripcion" class="form-label">Descripción</label>
+              <input type="text" class="form-control" id="descripcion" formControlName="descripcion" required />
+            </div>
+            <div class="mb-3">
+              <label for="precio" class="form-label">Precio</label>
+              <input type="number" class="form-control" id="precio" formControlName="precio" required />
+            </div>
+            <div class="mb-3">
+              <label for="stock" class="form-label">Stock</label>
+              <input type="number" class="form-control" id="stock" formControlName="stock" required />
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="productoForm.invalid">Guardar</button>
+          </form>
+        </div>
       </div>
     </div>
-    
-      <div class="table-responsive">
-        <table class="table table-dark table-striped table-hover">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Descripcion</th>
-              <th scope="col">Precio</th>
-              <th scope="col">Stock</th>
-              <th scope="col">Acciones</th>
-          
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let producto of productos">
-              <th scope="row">{{ producto.idProducto || 'N/A' }}</th>
-              <td>{{ producto.nombre }}</td> 
-              <td>{{ producto.descripcion }}</td>
-              <td>{{ producto.precio }}</td>
-              <td>{{ producto.stock }}</td>
-              <td>
-                <button class="btn btn-sm btn-outline-warning me-2">Editar</button>
-                <button class="btn btn-sm btn-outline-danger">Eliminar</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    
-      <div class="d-flex justify-content-center mt-3">
-        <button class="btn btn-dark">
-          <i class="bi bi-plus-circle me-2"></i>Agregar Producto
-        </button>
-      </div>
-    </div>
-  
+  </div>
+</div>
